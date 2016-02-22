@@ -17,14 +17,14 @@ loc_city=randi([1 100],num_city,2);
  distances=distances+distances'
  %Setting same city distances to max for ease of calculation of route
  for i=1:num_city
-     distances(i,i)=142
+     distances(i,i)=142;
  end
  route(1)=1;
  %%Making route using combinations solution
  
  
  %%Making route using Nearest neighbour approach
- route(1)=1;
+ route(1)=randi([1 10],1,1);
  for i=2:num_city
      min=1;
      for j=2:num_city
