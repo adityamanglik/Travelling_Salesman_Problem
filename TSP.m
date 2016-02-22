@@ -2,8 +2,8 @@
 clear;
 clc;
 %%Initial Declarations
-num_city=20;    %Set number of cities
-max_dist=1000;  %Set maximum distance spread
+num_city=10;    %Set number of cities
+max_dist=100;  %Set maximum distance spread
 route=zeros(1,num_city);
 %%Random generation of City Locations
 loc_city=randi([1 max_dist],num_city,2);
@@ -25,7 +25,7 @@ loc_city=randi([1 max_dist],num_city,2);
  
  %%Making route using combinations solution
  %REDUCING NUMBER OF CITIES TO MAKE CALCULATIONS FEASIBLE
- num=5;
+ num=8;
  cities=1:1:num;
  p=perms(cities);
  num_rows=factorial(num);
@@ -41,10 +41,7 @@ loc_city=randi([1 max_dist],num_city,2);
          best_sol=i;
      end
  end
-     p
-     best_sol
      p(best_sol,:)
-     dataset
      
      
  %%Making route using Nearest neighbour approach
