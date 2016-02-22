@@ -21,9 +21,32 @@ loc_city=randi([1 max_dist],num_city,2);
      distances(i,i)=max_dist*1.414+1;
  end
  route(1)=1;
+ 
+ 
  %%Making route using combinations solution
- 
- 
+ %REDUCING NUMBER OF CITIES TO MAKE CALCULATIONS FEASIBLE
+ num=5;
+ cities=1:1:num;
+ p=perms(cities);
+ num_rows=factorial(num);
+ dataset=zeros(num_rows,1);
+ for i=1:num_rows
+     for j=2:num
+     dataset(i)=dataset(i) + distances(p(i,j),p(i,j-1));
+     end
+ end
+ best_sol=1;
+ for i=2:num
+     if(dataset(i)<dataset(best_sol))
+         best_sol=i;
+     end
+ end
+     p
+     best_sol
+     p(best_sol,:)
+     dataset
+     
+     
  %%Making route using Nearest neighbour approach
  route(1)=1;
  for i=2:num_city
