@@ -2,10 +2,11 @@
 clear;
 clc;
 %%Initial Declarations
-num_city=10;    %Set number of cities
+num_city=20;    %Set number of cities
+max_dist=1000;  %Set maximum distance spread
 route=zeros(1,num_city);
 %%Random generation of City Locations
-loc_city=randi([1 100],num_city,2);
+loc_city=randi([1 max_dist],num_city,2);
 %Calculating Distances between cities
     distances=zeros(num_city,num_city);
  for i=1:num_city
@@ -17,14 +18,14 @@ loc_city=randi([1 100],num_city,2);
  distances=distances+distances'
  %Setting same city distances to max for ease of calculation of route
  for i=1:num_city
-     distances(i,i)=142;
+     distances(i,i)=max_dist*1.414+1;
  end
  route(1)=1;
  %%Making route using combinations solution
  
  
  %%Making route using Nearest neighbour approach
- route(1)=randi([1 10],1,1);
+ route(1)=1;
  for i=2:num_city
      min=1;
      for j=2:num_city
@@ -33,7 +34,7 @@ loc_city=randi([1 100],num_city,2);
          end
      end
      route(i)=min;
-     distances(:,route(i-1))=142;
+     distances(:,route(i-1))=max_dist*1.414+1;
  end
  
  %%Displaying Values 
