@@ -16,8 +16,13 @@ display('Cities generated.');
      end
  end
  display('Inter city distances calculated.'); 
+ maximum_dist=max(max(distances));
+ minimum_dist=min(min(distances));
  distances=distances+distances'
  backup_distances=distances;
+ display('Distances range from:');
+ maximum_dist
+ minimum_dist
  %Setting same city distances to max for ease of calculation of route
  display('Setting same city distances to max for ease of calculation of route.');
  for i=1:num_city
