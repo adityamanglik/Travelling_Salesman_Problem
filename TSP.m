@@ -2,7 +2,7 @@
 clear;
 clc;
 %%Initial Declarations
-num_city=20;    %Set number of cities
+num_city=10;    %Set number of cities
 max_dist=100;  %Set maximum distance spread
 route=zeros(1,num_city);
 %%Random generation of City Locations
@@ -23,7 +23,8 @@ display('Cities generated.');
  display('Distances and variance ranges from:');
  maximum_dist
  minimum_dist
- variance_dist=var(distances(1,:)
+ variance_dist=var(distances(1,:))
+ standard_deviation=sqrt(variance_dist)
  %Setting same city distances to max for ease of calculation of route
  display('Setting same city distances to max for ease of calculation of route.');
  for i=1:num_city
