@@ -2,7 +2,7 @@
 clear;
 clc;
 %%Initial Declarations
-num_city=8;    %Set number of cities
+num_city=20;    %Set number of cities
 max_dist=100;  %Set maximum distance spread
 route=zeros(1,num_city);
 %%Random generation of City Locations
@@ -17,12 +17,13 @@ display('Cities generated.');
  end
  display('Inter city distances calculated.'); 
  maximum_dist=max(max(distances));
- minimum_dist=min(min(distances));
+ minimum_dist=min_dist_calc(distances, num_city);
  distances=distances+distances'
  backup_distances=distances;
- display('Distances range from:');
+ display('Distances and variance ranges from:');
  maximum_dist
  minimum_dist
+ variance_dist=var(distances(1,:)
  %Setting same city distances to max for ease of calculation of route
  display('Setting same city distances to max for ease of calculation of route.');
  for i=1:num_city
@@ -31,7 +32,7 @@ display('Cities generated.');
  
  %%Making route using combinations solution
  %REDUCING NUMBER OF CITIES TO MAKE CALCULATIONS FEASIBLE
- num=8;
+ num=10;
  cities=1:1:num;
  p=perms(cities);
  num_rows=factorial(num);
@@ -47,7 +48,7 @@ display('Cities generated.');
          best_sol=i;
      end
  end
- display('Perfect solution after evaluation of all permutations is:');
+ display('Perfect solution after evaluation of all permutations for 10 cities is:');
  true_solution=p(best_sol,:)
  display('Perfect solution requires a distance of:');
  true_solution_dist=dataset(best_sol)
