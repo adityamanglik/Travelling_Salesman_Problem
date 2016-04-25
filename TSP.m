@@ -7,6 +7,10 @@ max_dist=100;  %Set maximum distance spread
 route=zeros(1,num_city);
 %%Random generation of City Locations
 loc_city=randi([1 max_dist],num_city,2);
+figure
+hold on
+plot(loc_city(:,1),loc_city(:,2),'.')
+axis([0 max_dist 0 max_dist])
 display('Cities generated.');
 %Calculating Distances between cities
     distances=zeros(num_city,num_city);
@@ -33,7 +37,7 @@ display('Cities generated.');
  
  %%Making route using combinations solution
  %REDUCING NUMBER OF CITIES TO MAKE CALCULATIONS FEASIBLE
- num=10;
+ num=5;
  cities=1:1:num;
  p=perms(cities);
  num_rows=factorial(num);
@@ -79,8 +83,8 @@ display('Cities generated.');
      greedy_distance    
      
 %%Initial Declarations for Neurons
-extra_neurons=2;    %Set number of extra neurons
-num_neurons=num_city+extra_neurons;
+extra_neurons=2;    %Set number of extra neurons multiplier
+num_neurons=num_city*extra_neurons;
 
  %%Initial circular generation of Neuron pattern
 loc_neuron=zeros(num_neurons,2);
@@ -90,8 +94,9 @@ for i=1:num_neurons
 end
 display('Neurons generated.');
 %Calculating Distances between cities and neurons
-    neuron_distances=zeros(num_neurons,num_city);
+    %neuron_distances=zeros(num_neurons,num_city);
     neuron_distances=neutocity(num_neurons, num_city, loc_neuron, loc_city);
 
- loc_neuron
+ loc_neuron=loc_neuron+50
  neuron_distances
+plot(loc_neuron(:,1),loc_neuron(:,2),'.')
