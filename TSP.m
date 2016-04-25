@@ -77,9 +77,25 @@ display('Cities generated.');
 
  display('Greedy route requires a distance of:');
      greedy_distance    
- 
-%  distances
-%  for i=1:num_city
-%  distances(i,:)=sort(distances(i,:));
-%  end
-% distances=distances+distances'
+     
+%%Initial Declarations for Neurons
+extra_neurons=2;    %Set number of extra neurons
+num_neurons=num_city+extra_neurons;
+
+ %%Initial circular generation of Neuron pattern
+loc_neuron=zeros(num_neurons,2);
+for i=1:num_neurons
+    theta=2*pi/num_neurons;
+    loc_neuron(i,:)=[cos((i-1)*theta) sin((i-1)*theta)];
+end
+display('Neurons generated.');
+%Calculating Distances between cities and neurons
+    neuron_distances=zeros(num_neurons,num_city);
+ for i=1:num_city
+     for j=1:num_neurons
+     neuron_distances(j,i)=sqrt((loc_neuron(j,1)-loc_city(i,1))^2 + (loc_neuron(j,2)-loc_city(i,2))^2);
+     end
+ end
+ display('Neuron to city distances calculated.'); 
+ loc_neuron
+ neuron_distances
