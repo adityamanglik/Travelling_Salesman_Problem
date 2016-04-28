@@ -7,96 +7,46 @@ max_dist=100;  %Set maximum distance spread
 route=zeros(1,num_city);
 %%Random generation of City Locations
 loc_city=randi([1 max_dist],num_city,2);
+
 figure
 hold on
 plot(loc_city(:,1),loc_city(:,2),'.')
 axis([0 max_dist 0 max_dist])
+
 display('Cities generated.');
+
 %Calculating Distances between cities
-    distances=zeros(num_city,num_city);
- for i=1:num_city
-     for j=i+1:num_city
-     distances(i,j)=sqrt((loc_city(j,1)-loc_city(i,1))^2 + (loc_city(j,2)-loc_city(i,2))^2);
-     end
- end
- display('Inter city distances calculated.'); 
- maximum_dist=max(max(distances));
- minimum_dist=min_dist_calc(distances, num_city);
- distances=distances+distances'
- backup_distances=distances;
- display('Distances and variance ranges from:');
- maximum_dist
- minimum_dist
- variance_dist=var(distances(1,:))
- standard_deviation=sqrt(variance_dist)
- %Setting same city distances to max for ease of calculation of route
- display('Setting same city distances to max for ease of calculation of route.');
- for i=1:num_city
-     distances(i,i)=max_dist*1.414+1;
- end
- 
- %%Making route using combinations solution
- %REDUCING NUMBER OF CITIES TO MAKE CALCULATIONS FEASIBLE
- num=5;
- cities=1:1:num;
- p=perms(cities);
- num_rows=factorial(num);
- dataset=zeros(num_rows,1);
- for i=1:num_rows
-     for j=2:num
-     dataset(i)=dataset(i) + distances(p(i,j),p(i,j-1));
-     end
- end
- best_sol=1;
- for i=2:num_rows
-     if(dataset(i)<dataset(best_sol))
-         best_sol=i;
-     end
- end
- display('Perfect solution after evaluation of all permutations for 10 cities is:');
- true_solution=p(best_sol,:)
- display('Perfect solution requires a distance of:');
- true_solution_dist=dataset(best_sol)
-     
-     
- %%Making route using Nearest neighbour approach
- route(1)=randi([1 num_city],1,1);
- for i=2:num_city
-     min=1;
-     for j=2:num_city
-         if (distances(route(i-1),j)<distances(route(i-1),min))
-             min=j;
-         end
-     end
-     route(i)=min;
-     distances(:,route(i-1))=max_dist*1.414+1;
- end
- display('Greedy route is:');
-     route
- greedy_distance=0;
-     for j=2:num_city
-     greedy_distance=greedy_distance + backup_distances(route(j),route(j-1));
-     end
- %%Displaying Values 
-
- display('Greedy route requires a distance of:');
-     greedy_distance    
-     
-%%Initial Declarations for Neurons
-extra_neurons=2;    %Set number of extra neurons multiplier
-num_neurons=num_city*extra_neurons;
-
- %%Initial circular generation of Neuron pattern
-loc_neuron=zeros(num_neurons,2);
-for i=1:num_neurons
-    theta=2*pi/num_neurons;
-    loc_neuron(i,:)=[cos((i-1)*theta) sin((i-1)*theta)];
+city_distances=zeros(num_city,num_city);
+for i=1:num_city
+    for j=i+1:num_city
+        city_distances(i,j)=sqrt((loc_city(j,1)-loc_city(i,1))^2 + (loc_city(j,2)-loc_city(i,2))^2);
+    end
 end
-display('Neurons generated.');
-%Calculating Distances between cities and neurons
-    %neuron_distances=zeros(num_neurons,num_city);
-    neuron_distances=neutocity(num_neurons, num_city, loc_neuron, loc_city);
+display('Inter city distances calculated.');
+maximum_dist=max(max(city_distances));
+minimum_dist=min_dist_calc(city_distances, num_city);
+city_distances=city_distances+city_distances'
+backup_distances=city_distances;
 
- loc_neuron=loc_neuron+50
- neuron_distances
-plot(loc_neuron(:,1),loc_neuron(:,2),'.')
+%City Distance Statistics
+display('Distances and variance ranges from:');
+maximum_dist
+minimum_dist
+variance_dist=var(city_distances(1,:))
+standard_deviation=sqrt(variance_dist)
+
+%Setting same city distances to max for ease of calculation of route
+display('Setting same city distances to max for ease of calculation of route.');
+for i=1:num_city
+    city_distances(i,i)=max_dist*1.414+1;
+end
+
+%%Best solution calculation- Combinatronics solution
+%May be commented out for fast calculations
+%combinatronics_solution(city_distances);
+
+%%Greedy solution calculation- First Heuristic approach
+greedy_route(num_city,city_distances,backup_distances,max_dist);
+
+%%Neural Networks solution calculation- K-SOM approach
+neural_route(num_city,max_dist,loc_city);
