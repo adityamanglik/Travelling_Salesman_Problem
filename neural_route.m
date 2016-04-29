@@ -1,4 +1,4 @@
-function [ output_args ] = neural_route( num_city,max_dist,loc_city )
+function [] = neural_route( num_city,max_dist,loc_city )
     %%Initial Declarations for Neurons
     extra_neurons=3;    %Set number of extra neurons multiplier, extra neurons used to eliminate oscillations between cities
     num_neurons=num_city*extra_neurons;
@@ -16,7 +16,24 @@ function [ output_args ] = neural_route( num_city,max_dist,loc_city )
     neuron_distances=neutocity(num_neurons, num_city, loc_neuron, loc_city);
     neuron_distances
     plot(loc_neuron(:,1),loc_neuron(:,2),'.')
-    %Code to move neurons according to distance from city
-    min_city_neuron = min(neuron_distances)
+    %Move neurons according to distance from city
+    min_city_neuron = min(neuron_distances);
+    neurons_to_move=zeros(numel(min_city_neuron),2);
+    for i=1:numel(min_city_neuron)
+        neurons_to_move(i,1)=find(min_city_neuron(i)==neuron_distances);
+    end
+    
+    for i=1:numel(min_city_neuron)
+        neurons_to_move(i,2)=neuron_distances(neurons_to_move(i,1));   
+    end
+    
+    for i=1:numel(min_city_neuron)
+        neurons_to_move(i)=neurons_to_move(i)-(i-1)*num_neurons;
+    end
+    
+    if(numel(neurons_to_move)~=numel(unique(neurons_to_move))) 
+        display('Oscillating condition possible with neurons.');
+    end
+neurons_to_move    
 end
 

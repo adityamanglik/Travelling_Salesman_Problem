@@ -1,9 +1,6 @@
-%%Brute Force Calculation Method
-clear;
-clc;
 %%Initial Declarations
 num_city=10;    %Set number of cities
-max_dist=100;  %Set maximum distance spread
+max_dist=1000;  %Set maximum distance spread
 route=zeros(1,num_city);
 %%Random generation of City Locations
 loc_city=randi([1 max_dist],num_city,2);
@@ -50,3 +47,12 @@ greedy_route(num_city,city_distances,backup_distances,max_dist);
 
 %%Neural Networks solution calculation- K-SOM approach
 neural_route(num_city,max_dist,loc_city);
+
+%%Genetic Algorithm approach solution calculation
+genetic_route();
+
+%%Ant Colony optimization approach
+aco_route();
+
+%%Gravitation technique approach
+gravitate_route();
