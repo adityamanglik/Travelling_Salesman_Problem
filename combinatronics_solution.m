@@ -1,8 +1,10 @@
-function [] = combinatronics_solution( num_city,city_distances )
+function [p] = combinatronics_solution( num_city,city_distances )
     %%Making route using combinations solution
+    
     %Reducing number of cities to make calculation feasible
-    num=8;
-    %num=num_city;
+    %num=8;
+    
+    num=num_city;
     cities=1:num;
     p=perms(cities);
     num_rows=factorial(num);

@@ -1,7 +1,7 @@
 %%Initial Declarations
 clc
 clear all
-num_city=7;    %Set number of cities
+num_city=10;    %Set number of cities
 max_dist=100;  %Set maximum distance spread
 route=zeros(1,num_city);
 %%Random generation of City Locations on a given map
@@ -41,20 +41,26 @@ for i=1:num_city
 end
 
 %%Best solution calculation- Combinatronics solution
-%May be commented out for fast calculations
-%combinatronics_solution(num_city,city_distances);
+%Returns all possible permutations for given cities,used in genetic_route()
+display('Calculating perfect solution via combinations.');
+p=combinatronics_solution(num_city,city_distances);
 
-%%Greedy solution calculation- First Heuristic approach
+%%Greedy solution calculation- Basic Heuristic approach
+%display('Calculating greedy route solution.');
 % greedy_route(num_city,city_distances,backup_distances,max_dist);
 
-%%Neural Networks solution calculation- K-SOM approach
+%%Neural Networks solution calculation- K-SOM approach solution
+%display('Calculating Neural Networks based Self-Organising Map solution.');
 % neural_route(num_city,max_dist,loc_city);
 
-%%Genetic Algorithm approach solution calculation
-genetic_route(num_city,city_distances);
+%%Genetic Algorithm approach solution
+display('Calculating Genetic Algorithm approach solution.');
+genetic_route(num_city,city_distances,p);
 
 %%Ant Colony optimization approach solution
-% aco_route();
-% 
+%display('Calculating Ant Colony Optimization approach solution.');
+aco_route();
+ 
 % %%Gravitation technique approach solution
-% gravitate_route();
+%display('Calculating Gravitation Technique approach solution.');
+gravitate_route();
