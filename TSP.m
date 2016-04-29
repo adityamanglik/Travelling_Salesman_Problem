@@ -1,16 +1,18 @@
 %%Initial Declarations
-num_city=10;    %Set number of cities
-max_dist=1000;  %Set maximum distance spread
+clc
+clear all
+num_city=7;    %Set number of cities
+max_dist=100;  %Set maximum distance spread
 route=zeros(1,num_city);
 %%Random generation of City Locations on a given map
 loc_city=randi([1 max_dist],num_city,2);
 
-figure
-hold on
-plot(loc_city(:,1),loc_city(:,2),'.')
-axis([0 max_dist 0 max_dist])
-
-display('Cities generated.');
+% figure
+% hold on
+% plot(loc_city(:,1),loc_city(:,2),'.')
+% axis([0 max_dist 0 max_dist])
+% 
+% display('Cities generated.');
 
 %Calculating Distances between cities
 city_distances=zeros(num_city,num_city);
@@ -25,7 +27,7 @@ minimum_dist=min_dist_calc(city_distances, num_city);
 city_distances=city_distances+city_distances'
 backup_distances=city_distances;
 
-%City Distance Statistics
+%%City Distance Statistics
 display('Distances and variance have the following statistics:');
 maximum_dist
 minimum_dist
@@ -40,19 +42,19 @@ end
 
 %%Best solution calculation- Combinatronics solution
 %May be commented out for fast calculations
-combinatronics_solution(num_city,city_distances);
+%combinatronics_solution(num_city,city_distances);
 
 %%Greedy solution calculation- First Heuristic approach
-greedy_route(num_city,city_distances,backup_distances,max_dist);
+% greedy_route(num_city,city_distances,backup_distances,max_dist);
 
 %%Neural Networks solution calculation- K-SOM approach
-neural_route(num_city,max_dist,loc_city);
+% neural_route(num_city,max_dist,loc_city);
 
 %%Genetic Algorithm approach solution calculation
-genetic_route();
+genetic_route(num_city,city_distances);
 
 %%Ant Colony optimization approach solution
-aco_route();
-
-%%Gravitation technique approach solution
-gravitate_route();
+% aco_route();
+% 
+% %%Gravitation technique approach solution
+% gravitate_route();
