@@ -5,9 +5,9 @@ function [] = neural_route( num_city,max_dist,loc_city )
     num_epochs=50;
     %%Initial circular pattern generation of Neuron locations
     loc_neuron=zeros(num_neurons,2);
-    for i=1:num_neurons
+    for var=1:num_neurons
         theta=2*pi/num_neurons;
-        loc_neuron(i,:)=[cos((i-1)*theta) sin((i-1)*theta)];
+        loc_neuron(var,:)=[cos((var-1)*theta) sin((var-1)*theta)];
     end
     loc_neuron=loc_neuron+(max_dist/2) %To generate ring of neurons in centre of map
     display('Neurons generated.');
@@ -20,20 +20,20 @@ function [] = neural_route( num_city,max_dist,loc_city )
     min_city_neuron = min(neuron_distances);
     neurons_to_move=zeros(numel(min_city_neuron),3);
     
-    for i=1:numel(min_city_neuron)
-        neurons_to_move(i,1)=find(min_city_neuron(i)==neuron_distances);
+    for var1=1:numel(min_city_neuron)
+        neurons_to_move(var1,1)=find(min_city_neuron(var1)==neuron_distances);
     end
     
-    for i=1:numel(min_city_neuron)
-        neurons_to_move(i,2)=neuron_distances(neurons_to_move(i,1));
+    for var2=1:numel(min_city_neuron)
+        neurons_to_move(var2,2)=neuron_distances(neurons_to_move(var2,1));
     end
     
-    for i=1:numel(min_city_neuron)
-        neurons_to_move(i,3)=i;
+    for var3=1:numel(min_city_neuron)
+        neurons_to_move(var3,3)=var3;
     end
     
-    for i=1:numel(min_city_neuron)
-        neurons_to_move(i)=neurons_to_move(i)-(i-1)*num_neurons;
+    for var4=1:numel(min_city_neuron)
+        neurons_to_move(var4)=neurons_to_move(var4)-(var4-1)*num_neurons;
     end
     
     if(numel(neurons_to_move)~=numel(unique(neurons_to_move)))

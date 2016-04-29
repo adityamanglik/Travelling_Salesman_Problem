@@ -8,7 +8,7 @@ function [] = genetic_route(num_city,city_distances,p)
         for i=1:num_city-1
             value=value+city_distances(chromo(i),chromo(i+1));
         end
-        value=value^-1;
+        value=(value*0.01)^-1;
     end
     
     %Eligibility function
@@ -22,7 +22,7 @@ function [] = genetic_route(num_city,city_distances,p)
     end
     
     %population_count must be <=factorial(num_city)
-    population_count=10;%May be experimented with, for instance, factorial(num_city-1)
+    population_count=500;%May be experimented with, for instance, factorial(num_city-1)
     if(population_count>factorial(num_city))
         display('Population count must be <= factorial(num_city).');
         return;

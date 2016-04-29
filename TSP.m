@@ -2,7 +2,7 @@
 clc
 clear all
 num_city=10;    %Set number of cities
-max_dist=100;  %Set maximum distance spread
+max_dist=1000;  %Set maximum distance spread
 route=zeros(1,num_city);
 %%Random generation of City Locations on a given map
 loc_city=randi([1 max_dist],num_city,2);

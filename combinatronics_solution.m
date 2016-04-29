@@ -2,9 +2,14 @@ function [p] = combinatronics_solution( num_city,city_distances )
     %%Making route using combinations solution
     
     %Reducing number of cities to make calculation feasible
-    %num=8;
-    
     num=num_city;
+    if(num_city>11)
+        warned=input('Warning! Extremely intensive computations!Proceed? 1/0 ');
+        if (~warned) 
+            display('Setting number of cities to 8.');
+            num=8;
+        end
+    end
     cities=1:num;
     p=perms(cities);
     num_rows=factorial(num);
