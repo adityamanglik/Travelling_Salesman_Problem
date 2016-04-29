@@ -2,7 +2,7 @@
 num_city=10;    %Set number of cities
 max_dist=1000;  %Set maximum distance spread
 route=zeros(1,num_city);
-%%Random generation of City Locations
+%%Random generation of City Locations on a given map
 loc_city=randi([1 max_dist],num_city,2);
 
 figure
@@ -26,7 +26,7 @@ city_distances=city_distances+city_distances'
 backup_distances=city_distances;
 
 %City Distance Statistics
-display('Distances and variance ranges from:');
+display('Distances and variance have the following statistics:');
 maximum_dist
 minimum_dist
 variance_dist=var(city_distances(1,:))
@@ -40,7 +40,7 @@ end
 
 %%Best solution calculation- Combinatronics solution
 %May be commented out for fast calculations
-%combinatronics_solution(city_distances);
+combinatronics_solution(num_city,city_distances);
 
 %%Greedy solution calculation- First Heuristic approach
 greedy_route(num_city,city_distances,backup_distances,max_dist);
@@ -51,8 +51,8 @@ neural_route(num_city,max_dist,loc_city);
 %%Genetic Algorithm approach solution calculation
 genetic_route();
 
-%%Ant Colony optimization approach
+%%Ant Colony optimization approach solution
 aco_route();
 
-%%Gravitation technique approach
+%%Gravitation technique approach solution
 gravitate_route();
