@@ -3,9 +3,8 @@ function [] = genetic_route(num_city,city_distances,p)
     %the TSP, finally comparing with other solutions
     
     %num_city cannot be not less than 5 for current population value of 50
-    population_count=3;%May be experimented with, for instance, factorial(num_city-1)
+    population_count=5;%May be experimented with, for instance, factorial(num_city-1)
     generation_count=50;%May be experimented with
-    cities=1:num_city;
     %Population must always be less than possible permutations,
     num_rows=size(p);%Needs Optimization
     random_individuals=randi([1 num_rows(1)],population_count,1);
@@ -45,15 +44,29 @@ function [] = genetic_route(num_city,city_distances,p)
     for i=1:num_sectors
         sector_table(i,1)=i;
     end
-    sector_table
     j=1;
     for i=1:population_count
         for j=j:j+probab_mating(i,2)
             sector_table(j,2)=i;
         end
     end
-    sector_table
+    heavyweight=max(probab_mating(:,2));
     %Crossover function
+    select1=4;
+    select2=5;
+    while(abs(select1-select2<=heavyweight))
+    select1=randi([1 num_sectors]);
+    select2=randi([1 num_sectors]);
+    end
+    select1
+    select2
+    indiv1=population(sector_table(select1,2),:)
+    indiv2=population(sector_table(select2,2),:)
+    cutpoint=round(num_city/2)
+    offspring1=[indiv1(1:cutpoint) indiv2(cutpoint+1:num_city)]
+    offspring2=[indiv1(1:cutpoint) indiv2(1:cutpoint)]
+    offspring3=[indiv1(cutpoint+1:num_city) indiv2(cutpoint+1:num_city)]
+    offspring4=[indiv1(cutpoint+1:num_city) indiv2(1:cutpoint)]
     
     %Mutation function
     
