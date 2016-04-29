@@ -158,9 +158,11 @@ function [] = genetic_route(num_city,city_distances,p)
         end
         
     end
-    akshis=1:generation_count;
-    plot(akshis,mean(fitness_database))
-    plot(akshis,max(fitness_database))
-    plot(akshis,min(fitness_database))
+    akshish=1:generation_count+1;
+    figure
+    hold on
+    plot(akshish,mean(fitness_database),'.:r');
+    plot(akshish,max(fitness_database),'.:b');
+    plot(akshish,min(fitness_database),'.:g');
 end
 
