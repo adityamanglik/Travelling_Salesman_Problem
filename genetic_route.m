@@ -70,7 +70,7 @@ function [] = genetic_route(num_city,city_distances,p)
             end
         end
     end
-    
+    %for epoch=1:generation_count
     %Crossover function
     select1=4;
     select2=5;
@@ -78,25 +78,23 @@ function [] = genetic_route(num_city,city_distances,p)
         select1=randi([1 num_sectors]);
         select2=randi([1 num_sectors]);
     end
-    select1
-    select2
-    indiv1=population(sector_table(select1,2),:)
-    indiv2=population(sector_table(select2,2),:)
-    cutpoint=round(num_city/2)
+    indiv1=population(sector_table(select1,2),:);
+    indiv2=population(sector_table(select2,2),:);
+    cutpoint=round(num_city/2);
     offspring1=[indiv1(1:cutpoint) indiv2(cutpoint+1:num_city)];
     offspring2=[indiv1(1:cutpoint) indiv2(1:cutpoint)];
     offspring3=[indiv1(cutpoint+1:num_city) indiv2(cutpoint+1:num_city)];
     offspring4=[indiv1(cutpoint+1:num_city) indiv2(1:cutpoint)];
-    index(1)=calc_fitness(indiv1)
-    index(2)=calc_fitness(indiv2)
-    index(3)=calc_fitness(offspring1)
-    index(4)=calc_fitness(offspring2)
-    index(5)=calc_fitness(offspring3)
-    index(6)=calc_fitness(offspring4)
-    prodigy1=find(index==(max(index)))
+    index(1)=calc_fitness(indiv1);
+    index(2)=calc_fitness(indiv2);
+    index(3)=calc_fitness(offspring1);
+    index(4)=calc_fitness(offspring2);
+    index(5)=calc_fitness(offspring3);
+    index(6)=calc_fitness(offspring4);
+    prodigy1=find(index==(max(index)));
     index(prodigy1)=0.01;
-    prodigy2=find(index==(max(index)))
-    switch (prodigy1)
+    prodigy2=find(index==(max(index)));
+    switch (prodigy1(1))
         case 1
             updated_population(1,:)=indiv1;
         case 2
@@ -110,7 +108,7 @@ function [] = genetic_route(num_city,city_distances,p)
         case 6
             updated_population(1,:)=offspring4;
     end
-    switch (prodigy2)
+    switch (prodigy2(1))
         case 1
             updated_population(2,:)=indiv1;
         case 2
@@ -126,8 +124,7 @@ function [] = genetic_route(num_city,city_distances,p)
     end
     updated_population
     for i=3:population_count
-    eligible=0
-    i
+    eligible=0;
     while(~eligible)
         select1=randi([1 num_sectors])
         member=population(sector_table(select1,2),:)
@@ -136,7 +133,15 @@ function [] = genetic_route(num_city,city_distances,p)
     updated_population(i,:)=member
     end
     updated_population
-    %Mutation function
     
+    %Mutation function
+    x=randi([1 population_count])
+    y=randi([1 num_city])
+    updated_population(x,y)=randi([1 num_city])
+    population
+    population=updated_population
+    
+    %end
+            
 end
 
