@@ -16,7 +16,7 @@ function [] = genetic_route(num_city,city_distances,p,max_dist,population_count,
     %Validation function
     function [verified] = validate(chromo)
         if (numel(unique(chromo))==numel(chromo))
-            verified=chromo
+            verified=chromo;
             return;
         end
         
@@ -35,7 +35,7 @@ function [] = genetic_route(num_city,city_distances,p,max_dist,population_count,
             chromo(replace(1))=replacement;
             reference(replacement)=reference(replacement)+1;
         end
-        verified=chromo
+        verified=chromo;
     end
     
     %Fitness function
@@ -208,8 +208,18 @@ function [] = genetic_route(num_city,city_distances,p,max_dist,population_count,
     akshish=1:generation_count;
     figure
     hold on
-    plot(akshish,mean(fitness_database),'.:r');
-    plot(akshish,max(fitness_database),'.:b');
-    plot(akshish,min(fitness_database),'.:g');
+    plot(akshish,mean(fitness_database),'r*--');
+    plot(akshish,max(fitness_database),'b*--');
+    plot(akshish,min(fitness_database),'g*--');
+    xlabel('Generations');
+    ylabel('Fitness');
+    title('Fitness parameters with successive generations');
+    legend('Average Fitness','Maximum Fitness','Minimum Fitness');
+    best_chromosome=max(find(fitness_database==max(max(fitness_database))));
+    showstopper=mod(best_chromosome,population_count);
+    if ~(showstopper) 
+        showstopper=population_count;
+    end
+    population(showstopper,:)
 end
 

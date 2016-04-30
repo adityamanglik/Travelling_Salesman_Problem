@@ -47,8 +47,8 @@ display('Calculating perfect solution via combinations.');
 p=combinatronics_solution(num_city,city_distances);
 
 %%Greedy solution calculation- Basic Heuristic approach
-%display('Calculating greedy route solution.');
-% greedy_route(num_city,city_distances,backup_distances,max_dist);
+display('Calculating greedy route solution.');
+greedy_route(num_city,city_distances,backup_distances,max_dist);
 
 %%Neural Networks solution calculation- K-SOM approach solution
 %display('Calculating Neural Networks based Self-Organising Map solution.');
@@ -56,10 +56,11 @@ p=combinatronics_solution(num_city,city_distances);
 
 %%Genetic Algorithm approach solution
 display('Calculating Genetic Algorithm approach solution.');
-population_count=10;
-generation_count=10;
+population_count=20;
+generation_count=20;
 threshold_mutate=1;%Mutation threshold, higher threshold=higher mutation rate
 genetic_route(num_city,city_distances,p,max_dist,population_count,generation_count,threshold_mutate);
+
 
 %%Ant Colony optimization approach solution
 %display('Calculating Ant Colony Optimization approach solution.');

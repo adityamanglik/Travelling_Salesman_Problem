@@ -3,7 +3,7 @@ function [p] = combinatronics_solution( num_city,city_distances )
     
     %Reducing number of cities to make calculation feasible
     num=num_city;
-    if(num_city>11)
+    if(num_city>10)
         warned=input('Warning! Extremely intensive computations!Proceed? 1/0 ');
         if (~warned) 
             display('Setting number of cities to 8.');
