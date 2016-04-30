@@ -2,6 +2,38 @@ function [] = genetic_route(num_city,city_distances,p,max_dist)
     %Genetic Algorithm approach is used to calculate a feasible solution to
     %the TSP, finally comparing with other solutions
     
+    %Validation function
+    function [verified] = validate(chromo)
+        chromo
+        
+        if (numel(unique(chromo))==numel(chromo))
+            verified=chromo
+            return;
+        end
+        
+        reference=zeros(1,num_city);
+        base_reference=ones(1,num_city);
+        duplicates(1)=1;
+        
+        for var21=1:num_city
+            reference(chromo(var21))=reference(chromo(var21))+1;
+        end
+        
+        reference
+        base_reference
+        while (reference~=base_reference)
+            display('Inside loop.');
+            duplicates=find(reference>1)
+            not_present=find(reference==0)
+            replace=find(chromo==duplicates(1))
+            replacement=not_present(1)
+            reference(chromo(replace(1)))=reference(chromo(replace(1)))-1
+            chromo(replace(1))=replacement
+            reference(replacement)=reference(replacement)+1
+        end
+        verified=chromo
+    end
+    
     %Fitness function
     function [value] = calc_fitness(chromo)
         value=0;
@@ -21,30 +53,28 @@ function [] = genetic_route(num_city,city_distances,p,max_dist)
         end
     end
     
+    %%Initial Declarations, controlling variables
     %population_count must be <=factorial(num_city)
-    population_count=20;%May be experimented with, for instance, factorial(num_city-1)
+    population_count=2;%May be experimented with, for instance, factorial(num_city-1)
     if(population_count>factorial(num_city))
         display('Population count must be <= factorial(num_city).');
         return;
     end
-    generation_count=20;%May be experimented with
+    generation_count=2;%May be experimented with
     num_sectors=population_count*50;
     num_rows=size(p);%Needs Optimization
     random_individuals=randi([1 num_rows(1)],population_count,1);
     population=zeros(population_count,num_city);
     updated_population=zeros(population_count,num_city);
+    index=zeros(6,1);
+    fitness_database=zeros(population_count,generation_count);
     
+    %Initial Population Seed
     for var3=1:population_count
         for jar1=1:num_city
             population(var3,jar1)=p(random_individuals(var3),jar1);
         end
     end
-    
-    population
-    
-    fitness_database=zeros(population_count,generation_count);
-    
- 
     
     
     %Begin Epoch Generation
@@ -61,15 +91,15 @@ function [] = genetic_route(num_city,city_distances,p,max_dist)
         for var4=1:population_count
             probab_mating(var4,1)=fitness_database(var4,epoch)./sum_fitness;
         end
-
+        
         for var5=1:population_count
             probab_mating(var5,2)=num_sectors*probab_mating(var5,1);
         end
-
+        
         for var6=1:population_count
             probab_mating(var6,2)=round(probab_mating(var6,2));
         end
-
+        
         if(sum(probab_mating(:,2)~=num_sectors))
             display('Adjusting sectors for calculations.');
             num_sectors=sum(probab_mating(:,2));
@@ -94,12 +124,18 @@ function [] = genetic_route(num_city,city_distances,p,max_dist)
             select2=randi([1 num_sectors]);
         end
         indiv1=population(sector_table(select1,2),:);
+        indiv1=validate(indiv1);
         indiv2=population(sector_table(select2,2),:);
+        indiv2=validate(indiv2);
         cutpoint=round(num_city/2);
         offspring1=[indiv1(1:cutpoint) indiv2(cutpoint+1:num_city)];
+        offspring1=validate(offspring1);
         offspring2=[indiv1(1:cutpoint) indiv2(1:cutpoint)];
+        offspring2=validate(offspring2);
         offspring3=[indiv1(cutpoint+1:num_city) indiv2(cutpoint+1:num_city)];
+        offspring3=validate(offspring3);
         offspring4=[indiv1(cutpoint+1:num_city) indiv2(1:cutpoint)];
+        offspring4=validate(offspring4);
         index(1)=calc_fitness(indiv1);
         index(2)=calc_fitness(indiv2);
         index(3)=calc_fitness(offspring1);
