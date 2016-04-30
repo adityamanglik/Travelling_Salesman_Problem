@@ -56,7 +56,10 @@ p=combinatronics_solution(num_city,city_distances);
 
 %%Genetic Algorithm approach solution
 display('Calculating Genetic Algorithm approach solution.');
-genetic_route(num_city,city_distances,p,max_dist);
+population_count=10;
+generation_count=10;
+threshold_mutate=1;%Mutation threshold, higher threshold=higher mutation rate
+genetic_route(num_city,city_distances,p,max_dist,population_count,generation_count,threshold_mutate);
 
 %%Ant Colony optimization approach solution
 %display('Calculating Ant Colony Optimization approach solution.');

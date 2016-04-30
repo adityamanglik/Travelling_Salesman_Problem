@@ -1,4 +1,4 @@
-function [] = genetic_route(num_city,city_distances,p,max_dist)
+function [] = genetic_route(num_city,city_distances,p,max_dist,population_count,generation_count,threshold_mutate)
     %Genetic Algorithm approach is used to calculate a feasible solution to
     %the TSP, finally comparing with other solutions
     
@@ -59,13 +59,14 @@ function [] = genetic_route(num_city,city_distances,p,max_dist)
     
     %%Initial Declarations, controlling variables
     %population_count must be <=factorial(num_city)
-    population_count=2;%May be experimented with, for instance, factorial(num_city-1)
+    %population_count=2;%May be experimented with, for instance, factorial(num_city-1)
     if(population_count>factorial(num_city))
         display('Population count must be <= factorial(num_city).');
         return;
     end
-    generation_count=2;%May be experimented with
-    threshold_mutate=1;%Mutation threshold, higher threshold=higher mutation rate
+    %generation_count=2;%May be experimented with
+    %threshold_mutate=1;%Mutation threshold, higher threshold=higher mutation rate
+    
     num_sectors=population_count*50;
     num_rows=size(p);%Needs Optimization
     random_individuals=randi([1 num_rows(1)],population_count,1);
