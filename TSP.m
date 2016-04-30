@@ -1,8 +1,9 @@
 %%Initial Declarations
 clc
 clear all
+rng('shuffle');
 num_city=10;    %Set number of cities
-max_dist=1000;  %Set maximum distance spread
+max_dist=100;  %Set maximum distance spread
 route=zeros(1,num_city);
 %%Random generation of City Locations on a given map
 loc_city=randi([1 max_dist],num_city,2);
@@ -55,7 +56,7 @@ p=combinatronics_solution(num_city,city_distances);
 
 %%Genetic Algorithm approach solution
 display('Calculating Genetic Algorithm approach solution.');
-genetic_route(num_city,city_distances,p);
+genetic_route(num_city,city_distances,p,max_dist);
 
 %%Ant Colony optimization approach solution
 %display('Calculating Ant Colony Optimization approach solution.');

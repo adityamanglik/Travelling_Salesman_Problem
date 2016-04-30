@@ -1,14 +1,14 @@
-function [] = genetic_route(num_city,city_distances,p)
+function [] = genetic_route(num_city,city_distances,p,max_dist)
     %Genetic Algorithm approach is used to calculate a feasible solution to
     %the TSP, finally comparing with other solutions
     
-     %Fitness function
+    %Fitness function
     function [value] = calc_fitness(chromo)
         value=0;
         for i=1:num_city-1
             value=value+city_distances(chromo(i),chromo(i+1));
         end
-        value=(value*0.01)^-1;
+        value=(value*10^(-log10(max_dist))^-1);
     end
     
     %Eligibility function
@@ -22,12 +22,12 @@ function [] = genetic_route(num_city,city_distances,p)
     end
     
     %population_count must be <=factorial(num_city)
-    population_count=500;%May be experimented with, for instance, factorial(num_city-1)
+    population_count=20;%May be experimented with, for instance, factorial(num_city-1)
     if(population_count>factorial(num_city))
         display('Population count must be <= factorial(num_city).');
         return;
     end
-    generation_count=500;%May be experimented with
+    generation_count=20;%May be experimented with
     num_sectors=population_count*50;
     num_rows=size(p);%Needs Optimization
     random_individuals=randi([1 num_rows(1)],population_count,1);
@@ -43,32 +43,33 @@ function [] = genetic_route(num_city,city_distances,p)
     population
     
     fitness_database=zeros(population_count,generation_count);
-    population(1,:)
-    for var1=1:population_count
-        fitness_database(var1,1)=calc_fitness(population(var1,:))
-    end
-    fitness_database
     
+ 
     
-   
     
     %Begin Epoch Generation
     for epoch=1:generation_count
         
+        for var1=1:population_count
+            fitness_database(var1,epoch)=calc_fitness(population(var1,:));
+        end
+        
         %Select individuals for breeding on basis of fitness
-        %Higher(lower) fitness=Higher breeding chances
+        %Higher fitness=Higher breeding chances
         sum_fitness=sum(fitness_database(:,epoch));
         probab_mating=ones(population_count,2);
         for var4=1:population_count
             probab_mating(var4,1)=fitness_database(var4,epoch)./sum_fitness;
         end
+
         for var5=1:population_count
             probab_mating(var5,2)=num_sectors*probab_mating(var5,1);
         end
+
         for var6=1:population_count
             probab_mating(var6,2)=round(probab_mating(var6,2));
         end
-        probab_mating
+
         if(sum(probab_mating(:,2)~=num_sectors))
             display('Adjusting sectors for calculations.');
             num_sectors=sum(probab_mating(:,2));
@@ -149,16 +150,19 @@ function [] = genetic_route(num_city,city_distances,p)
         end
         
         %Mutation function
-        x=randi([1 population_count]);
-        y=randi([1 num_city]);
-        updated_population(x,y)=randi([1 num_city]);
-        population=updated_population
-        for var10=1:population_count
-            fitness_database(var10,epoch+1)=calc_fitness(population(var10,:));
+        chance=randi([1 1000]);
+        threshold=1;
+        if (chance>threshold)
+            x=randi([1 population_count],2,1);
+            y=randi([1 num_city]);
+            swapper=updated_population(x(2),y);
+            updated_population(x(2),y)=updated_population(x(1),y);
+            updated_population(x(1),y)=swapper;
         end
-        
+        population=updated_population
+        fitness_database
     end
-    akshish=1:generation_count+1;
+    akshish=1:generation_count;
     figure
     hold on
     plot(akshish,mean(fitness_database),'.:r');
