@@ -2,10 +2,19 @@ function [] = genetic_route(num_city,city_distances,p,max_dist)
     %Genetic Algorithm approach is used to calculate a feasible solution to
     %the TSP, finally comparing with other solutions
     
+    %Check matrix equal function
+    function [flag] = check(ref,base_ref)
+        flag=1;
+        for var30=1:num_city
+            if(ref(var30)~=base_ref(var30))
+                flag=0;
+                return;
+            end
+        end
+    end
+    
     %Validation function
     function [verified] = validate(chromo)
-        chromo
-        
         if (numel(unique(chromo))==numel(chromo))
             verified=chromo
             return;
@@ -13,23 +22,18 @@ function [] = genetic_route(num_city,city_distances,p,max_dist)
         
         reference=zeros(1,num_city);
         base_reference=ones(1,num_city);
-        duplicates(1)=1;
-        
+
         for var21=1:num_city
             reference(chromo(var21))=reference(chromo(var21))+1;
         end
-        
-        reference
-        base_reference
-        while (reference~=base_reference)
-            display('Inside loop.');
-            duplicates=find(reference>1)
-            not_present=find(reference==0)
-            replace=find(chromo==duplicates(1))
-            replacement=not_present(1)
-            reference(chromo(replace(1)))=reference(chromo(replace(1)))-1
-            chromo(replace(1))=replacement
-            reference(replacement)=reference(replacement)+1
+        while (~check(reference,base_reference))
+            duplicates=find(reference>1);
+            not_present=find(reference==0);
+            replace=find(chromo==duplicates(1));
+            replacement=not_present(1);
+            reference(chromo(replace(1)))=reference(chromo(replace(1)))-1;
+            chromo(replace(1))=replacement;
+            reference(replacement)=reference(replacement)+1;
         end
         verified=chromo
     end
@@ -61,6 +65,7 @@ function [] = genetic_route(num_city,city_distances,p,max_dist)
         return;
     end
     generation_count=2;%May be experimented with
+    threshold_mutate=1;%Mutation threshold, higher threshold=higher mutation rate
     num_sectors=population_count*50;
     num_rows=size(p);%Needs Optimization
     random_individuals=randi([1 num_rows(1)],population_count,1);
@@ -117,6 +122,7 @@ function [] = genetic_route(num_city,city_distances,p,max_dist)
         heavyweight=max(probab_mating(:,2));
         
         %Crossover function
+        display('Crossing Over.');
         select1=4;
         select2=5;
         while(abs(select1-select2<=heavyweight))
@@ -186,14 +192,14 @@ function [] = genetic_route(num_city,city_distances,p,max_dist)
         end
         
         %Mutation function
+        display('Mutating.');
         chance=randi([1 1000]);
-        threshold=1;
-        if (chance>threshold)
-            x=randi([1 population_count],2,1);
-            y=randi([1 num_city]);
-            swapper=updated_population(x(2),y);
-            updated_population(x(2),y)=updated_population(x(1),y);
-            updated_population(x(1),y)=swapper;
+        if (chance>threshold_mutate)
+            x=randi([1 population_count]);
+            y=randi([1 num_city],2,1);
+            swapper=updated_population(x,y(1));
+            updated_population(x,y(1))=updated_population(x,y(2));
+            updated_population(x,y(1))=swapper;
         end
         population=updated_population
         fitness_database
