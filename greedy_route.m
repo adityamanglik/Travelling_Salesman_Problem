@@ -1,4 +1,4 @@
-function [] = greedy_route( num_city,city_distances,backup_distances,max_dist )
+function [route, greedy_distance] = greedy_route( num_city,city_distances,backup_distances,max_dist )
     %%Making route using Nearest neighbour approach
     route(1)=randi([1 num_city],1,1);
     for i=2:num_city

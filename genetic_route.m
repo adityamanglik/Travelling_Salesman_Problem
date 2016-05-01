@@ -1,4 +1,4 @@
-function [] = genetic_route(num_city,city_distances,p,max_dist,population_count,generation_count,threshold_mutate)
+function [genetic_man, fitness] = genetic_route(num_city,city_distances,p,max_dist,population_count,generation_count,threshold_mutate)
     %Genetic Algorithm approach is used to calculate a feasible solution to
     %the TSP, finally comparing with other solutions
     
@@ -220,6 +220,7 @@ function [] = genetic_route(num_city,city_distances,p,max_dist,population_count,
     if ~(showstopper) 
         showstopper=population_count;
     end
-    population(showstopper,:)
+    genetic_man=population(showstopper,:);
+    fitness=calc_fitness(genetic_man);
 end
 

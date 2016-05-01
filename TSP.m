@@ -44,23 +44,23 @@ end
 %%Best solution calculation- Combinatronics solution
 %Returns all possible permutations for given cities,used in genetic_route()
 display('Calculating perfect solution via combinations.');
-p=combinatronics_solution(num_city,city_distances);
+[best_man, fit_best, p]=combinatronics_solution(num_city,city_distances);
 
 %%Greedy solution calculation- Basic Heuristic approach
 display('Calculating greedy route solution.');
-greedy_route(num_city,city_distances,backup_distances,max_dist);
+[greedy_man, fit_greed]=greedy_route(num_city,city_distances,backup_distances,max_dist);
 
 %%Neural Networks solution calculation- K-SOM approach solution
-%display('Calculating Neural Networks based Self-Organising Map solution.');
-% neural_route(num_city,max_dist,loc_city);
+display('Calculating Neural Networks based Self-Organising Map solution.');
+neural_route(num_city,max_dist,loc_city);
 
 %%Genetic Algorithm approach solution
-display('Calculating Genetic Algorithm approach solution.');
-population_count=20;
-generation_count=20;
-threshold_mutate=1;%Mutation threshold, higher threshold=higher mutation rate
-genetic_route(num_city,city_distances,p,max_dist,population_count,generation_count,threshold_mutate);
-
+% display('Calculating Genetic Algorithm approach solution.');
+% population_count=1000;
+% generation_count=1000;
+% threshold_mutate=1;%Mutation threshold, higher threshold=higher mutation rate
+% [genetic_man, fit_gene]=genetic_route(num_city,city_distances,p,max_dist,population_count,generation_count,threshold_mutate);
+% fit_gene=(fit_gene*10^(log10(max_dist))^-1);
 
 %%Ant Colony optimization approach solution
 %display('Calculating Ant Colony Optimization approach solution.');
@@ -69,3 +69,12 @@ aco_route();
 % %%Gravitation technique approach solution
 %display('Calculating Gravitation Technique approach solution.');
 gravitate_route();
+
+
+% clc
+% best_man
+% fit_best 
+% greedy_man
+% fit_greed 
+% genetic_man
+% fit_gene 

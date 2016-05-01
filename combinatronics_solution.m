@@ -1,4 +1,4 @@
-function [p] = combinatronics_solution( num_city,city_distances )
+function [true_solution, true_solution_dist, p] = combinatronics_solution( num_city,city_distances )
     %%Making route using combinations solution
     
     %Reducing number of cities to make calculation feasible
